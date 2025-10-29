@@ -1,8 +1,4 @@
-# Fichiers de build et distribution
-dist/
-build/
-*.spec
-temp_webex_archive/
+
 
 # Environnement virtuel
 .venv/
