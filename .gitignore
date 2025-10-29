@@ -1,0 +1,50 @@
+# Fichiers de build et distribution
+dist/
+build/
+*.spec
+temp_webex_archive/
+
+# Environnement virtuel
+.venv/
+venv/
+env/
+ENV/
+
+# Cache Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.pytest_cache/
+
+# Fichiers système
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Fichiers temporaires
+*.tmp
+*.temp
+
+# Fichiers de configuration locale
+config_local.ini
+.env
+.env.local
+
+# Fichiers de test temporaires
+test_*.py
+temp_*.py
