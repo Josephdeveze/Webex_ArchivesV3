@@ -1,18 +1,32 @@
 # -*- mode: python ; coding: utf-8 -*-
+import sys
+import os
 
+# Chemin vers le dossier DLLs de Python
+python_dlls = os.path.join(sys.base_prefix, 'DLLs')
+
+# Binaires critiques à inclure explicitement
+critical_binaries = [
+    (os.path.join(python_dlls, '_socket.pyd'), '.'),
+    (os.path.join(python_dlls, '_ssl.pyd'), '.'),
+    (os.path.join(python_dlls, 'select.pyd'), '.'),
+    (os.path.join(python_dlls, 'libssl-3.dll'), '.'),
+    (os.path.join(python_dlls, 'libcrypto-3.dll'), '.'),
+]
+
+# Filtrer uniquement les fichiers qui existent
+binaries_to_add = [(src, dst) for src, dst in critical_binaries if os.path.exists(src)]
 
 a = Analysis(
     ['webex_gui.py'],
     pathex=[],
-    binaries=[],
+    binaries=binaries_to_add,
     datas=[('Webex Archive', 'Webex Archive')],
     hiddenimports=[
-        '_socket',
         'socket',
+        'ssl',
         'select',
         'selectors',
-        '_ssl',
-        'ssl',
         'multiprocessing',
         'multiprocessing.pool',
         'multiprocessing.reduction',
@@ -21,6 +35,10 @@ a = Analysis(
         'multiprocessing.popen_spawn_win32',
         'multiprocessing.context',
         'multiprocessing.util',
+        'multiprocessing.heap',
+        'multiprocessing.queues',
+        'multiprocessing.managers',
+        'multiprocessing.sharedctypes',
         'queue',
         'threading',
         'subprocess',
@@ -29,6 +47,11 @@ a = Analysis(
         'configparser',
         'requests',
         'urllib3',
+        'urllib3.util',
+        'urllib3.util.retry',
+        'urllib3.util.ssl_',
+        'urllib3.connection',
+        'urllib3.connectionpool',
         'certifi',
         'charset_normalizer',
         'idna',
@@ -36,6 +59,11 @@ a = Analysis(
         'PyQt6.QtGui',
         'PyQt6.QtWidgets',
         'PyQt6.sip',
+        'json',
+        'pathlib',
+        'shutil',
+        'io',
+        'traceback',
     ],
     hookspath=[],
     hooksconfig={},
