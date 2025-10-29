@@ -31,11 +31,11 @@ for filename in files_to_copy:
     if os.path.exists(src):
         try:
             shutil.copy2(src, dst)
-            print(f"✓ Copié: {filename}")
+            print(f"[OK] Copie: {filename}")
         except Exception as e:
-            print(f"✗ Erreur pour {filename}: {e}")
+            print(f"[ERROR] Erreur pour {filename}: {e}")
     else:
-        print(f"⚠ Fichier source introuvable: {filename}")
+        print(f"[WARNING] Fichier source introuvable: {filename}")
 
 print("=" * 80)
 print("FIX TERMINÉ - Les fichiers sont maintenant à la racine du dossier dist")

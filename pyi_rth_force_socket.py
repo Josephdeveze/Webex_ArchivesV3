@@ -4,6 +4,20 @@
 import sys
 import os
 
+# CRITICAL FIX: Ajouter le repertoire de l'executable au sys.path
+# pour que Python trouve les .pyd a la racine
+exe_dir = os.path.dirname(sys.executable)
+if exe_dir not in sys.path:
+    sys.path.insert(0, exe_dir)
+    print(f"[FIX] Added to sys.path: {exe_dir}")
+
+# Aussi ajouter le repertoire courant
+if os.getcwd() not in sys.path:
+    sys.path.insert(0, os.getcwd())
+    print(f"[FIX] Added to sys.path: {os.getcwd()}")
+
+print(f"[DEBUG] sys.path[0:3] = {sys.path[0:3]}")
+
 # Forcer l'import des modules critiques des le demarrage
 try:
     import _socket
