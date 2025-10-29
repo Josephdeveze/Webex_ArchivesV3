@@ -1,0 +1,123 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    🧪 VERSION DE TEST AVEC CONSOLE                           ║
+║                  Pour diagnostiquer l'erreur _socket                         ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+📋 CETTE VERSION EST POUR LE TEST
+═══════════════════════════════════════════════════════════════════════════════
+
+Cette version inclut :
+  • Mode console activé (fenêtre noire en arrière-plan)
+  • Messages de debug pour voir si les modules se chargent
+  • Runtime hook personnalisé pour forcer le chargement de _socket
+
+IMPORTANT : Cette version affichera une console en plus de l'interface graphique.
+
+
+🧪 COMMENT TESTER
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Lancez "Webex Archive Manager.exe"
+
+2. Vous verrez DEUX fenêtres :
+   • Une fenêtre CONSOLE (noire) avec des messages de debug
+   • La fenêtre GRAPHIQUE de l'application
+
+3. Regardez les messages dans la console :
+
+   Messages attendus :
+   ─────────────────────────────────────────────────────────────────────────
+   [OK] _socket loaded successfully
+   [OK] socket loaded successfully
+   [OK] _ssl loaded successfully
+   [OK] ssl loaded successfully
+   [OK] select loaded successfully
+   [DEBUG] sys.path: [...]
+   [DEBUG] sys.executable: ...
+   ─────────────────────────────────────────────────────────────────────────
+
+4. Si vous voyez ces messages [OK], les modules se chargent correctement !
+
+5. Testez l'application normalement :
+   • Entrez votre token Webex
+   • Cliquez sur "Charger les espaces"
+   • Vérifiez si l'erreur _socket apparaît toujours
+
+
+📊 INTERPRÉTATION DES RÉSULTATS
+═══════════════════════════════════════════════════════════════════════════════
+
+CAS 1 : Tous les messages [OK] apparaissent
+────────────────────────────────────────────────────────────────────────────
+  ✅ Les modules .pyd se chargent correctement
+  ✅ Le problème est ailleurs (peut-être dans multiprocessing)
+  → Continuez le test avec l'application
+
+
+CAS 2 : Messages [ERROR] apparaissent
+────────────────────────────────────────────────────────────────────────────
+  ❌ Les modules .pyd ne se chargent pas
+  ❌ Les fichiers sont peut-être mal placés
+  → Envoyez-moi une capture d'écran de la console
+
+
+CAS 3 : L'application crash avant d'afficher quoi que ce soit
+────────────────────────────────────────────────────────────────────────────
+  ❌ Problème critique au démarrage
+  → Le runtime hook lui-même a un problème
+
+
+🔍 INFORMATIONS À COLLECTER
+═══════════════════════════════════════════════════════════════════════════════
+
+Si l'erreur persiste, prenez des captures d'écran de :
+
+  1. La fenêtre CONSOLE avec les messages de debug
+  2. Le message d'erreur complet s'il apparaît
+  3. Le contenu du dossier "_internal" (liste des fichiers)
+
+
+📁 VÉRIFICATION MANUELLE
+═══════════════════════════════════════════════════════════════════════════════
+
+Vérifiez que ces fichiers existent dans le dossier "_internal" :
+
+  ☐ _socket.pyd
+  ☐ _ssl.pyd
+  ☐ select.pyd
+  ☐ libssl-3.dll
+  ☐ libcrypto-3.dll
+
+Si un fichier manque, c'est la source du problème.
+
+
+🔄 PROCHAINES ÉTAPES
+═══════════════════════════════════════════════════════════════════════════════
+
+Selon les résultats du test :
+
+  SCÉNARIO A : Tout fonctionne
+  ───────────────────────────────────────────────────────────────────────
+    → Je désactiverai le mode console
+    → Je créerai la version finale sans console
+    → Vous pourrez distribuer cette version
+
+
+  SCÉNARIO B : Erreur _socket persiste
+  ───────────────────────────────────────────────────────────────────────
+    → J'analyserai les messages de la console
+    → J'essaierai une approche différente (peut-être --onedir avec structure modifiée)
+    → Ou passage à un autre outil de packaging (cx_Freeze, Nuitka)
+
+
+💡 CONSEILS
+═══════════════════════════════════════════════════════════════════════════════
+
+  • Ne fermez PAS la console pendant que l'application tourne
+  • Gardez la console visible pour voir les messages
+  • Si l'application se ferme, la console montrera l'erreur complète
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  Testez maintenant et envoyez-moi les résultats ! 🧪
+═══════════════════════════════════════════════════════════════════════════════
