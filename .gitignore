@@ -44,3 +44,15 @@ config_local.ini
 # Fichiers de test temporaires
 test_*.py
 temp_*.py
+
+# Build et distribution
+build/
+dist/
+*.zip
+*.exe
+
+# Paramètres utilisateur
+.webex_gui_settings.json
+
+# Archives Webex
+Webex Archives/

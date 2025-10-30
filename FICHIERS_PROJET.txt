@@ -1,0 +1,163 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    📁 STRUCTURE DES FICHIERS DU PROJET                       ║
+║                      Webex Archive Manager v1.0                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+📄 FICHIERS PRINCIPAUX
+═══════════════════════════════════════════════════════════════════════════════
+
+CODE SOURCE
+────────────────────────────────────────────────────────────────────────────
+  webex_gui.py              Interface graphique principale (PyQt6)
+  main.py                   Script d'archivage legacy
+  setup.py                  Configuration cx_Freeze pour compilation
+  qt.conf                   Configuration Qt (inclus dans le build)
+  requirements.txt          Dépendances Python
+
+SCRIPTS DE BUILD
+────────────────────────────────────────────────────────────────────────────
+  build_cxfreeze.bat        Script de compilation automatique
+
+
+📚 DOCUMENTATION
+═══════════════════════════════════════════════════════════════════════════════
+
+POUR LES UTILISATEURS
+────────────────────────────────────────────────────────────────────────────
+  GUIDE_UTILISATEUR.txt           Guide d'installation et d'utilisation
+  PACKAGE_FINAL_INSTRUCTIONS.txt  Instructions de distribution
+
+POUR LES DÉVELOPPEURS
+────────────────────────────────────────────────────────────────────────────
+  README.md                       Documentation complète du projet
+  SUCCES_CXFREEZE.md             Explication technique de la solution
+  VERSION_PRODUCTION.txt          Récapitulatif de la version finale
+  FICHIERS_PROJET.txt            Ce fichier
+
+
+📦 DOSSIERS
+═══════════════════════════════════════════════════════════════════════════════
+
+Webex Archive/              Scripts d'archivage Webex
+  ├── main.py              Script principal d'archivage
+  └── README.md            Documentation du script
+
+build/                      Dossier de compilation (généré)
+  └── exe.win-amd64-3.13/  Application compilée
+      ├── Webex Archive Manager.exe
+      ├── qt.conf
+      ├── lib/
+      ├── Webex Archive/
+      └── *.dll
+
+
+🎯 FICHIERS DE DISTRIBUTION
+═══════════════════════════════════════════════════════════════════════════════
+
+Webex_Archive_Manager_v1.0_FINAL.zip    Package final (74.4 MB)
+  → Contient tout le dossier build\exe.win-amd64-3.13\
+  → Prêt pour distribution aux utilisateurs
+
+
+🗑️ FICHIERS SUPPRIMÉS (NETTOYAGE)
+═══════════════════════════════════════════════════════════════════════════════
+
+FICHIERS MARKDOWN OBSOLÈTES
+────────────────────────────────────────────────────────────────────────────
+  ✗ CONTRIBUTING.md
+  ✗ DISTRIBUTION.md
+  ✗ FINAL_INTERNAL_GUIDE.md
+  ✗ GITHUB_GUIDE.md
+  ✗ GITHUB_INFO_TEMPLATE.md
+  ✗ GITHUB_STRUCTURE.md
+  ✗ GITHUB_UPLOAD_GUIDE.md
+  ✗ GIT_COMMANDS.md
+  ✗ INTERNAL_DISTRIBUTION.md
+  ✗ PORTABILITY_CONFIRMED.md
+  ✗ README_GITHUB.md
+  ✗ README_FINAL.md (remplacé par README.md)
+  ✗ SECURITY.md
+  ✗ USER_GUIDE.md
+  ✗ VERSION.md
+  ✗ VERSION_FINALE_PRETE.md
+  ✗ WINDOWS_COMPILATION_GUIDE.md
+
+FICHIERS TEXTE OBSOLÈTES
+────────────────────────────────────────────────────────────────────────────
+  ✗ GUIDE_DISTRIBUTION_CXFREEZE.txt
+  ✗ INSTRUCTIONS_UTILISATEUR.txt
+  ✗ INSTRUCTIONS_DEBUG.txt
+  ✗ TESTEZ_MAINTENANT.txt
+  ✗ TEST_AUTRE_MACHINE.md
+  ✗ TEST_VERSION_CONSOLE.txt
+  ✗ DIAGNOSTIC_PROBLEME.md
+  ✗ CHANGER_REMOTE_GIT.md
+  ✗ IMPORTANT_LIRE_DABORD.txt
+
+FICHIERS DE BUILD OBSOLÈTES
+────────────────────────────────────────────────────────────────────────────
+  ✗ pyi_rth_force_socket.py (PyInstaller)
+  ✗ post_build_fix.py (PyInstaller)
+  ✗ hook-force_load.py (PyInstaller)
+  ✗ webex_launcher.py (PyInstaller)
+  ✗ BUILD_FINAL.bat (PyInstaller)
+  ✗ Webex Archive Manager.spec (PyInstaller)
+
+DOSSIERS SUPPRIMÉS
+────────────────────────────────────────────────────────────────────────────
+  ✗ docs/ (doublons)
+  ✗ Webex_Archives/ (doublon)
+
+FICHIERS ZIP TEMPORAIRES
+────────────────────────────────────────────────────────────────────────────
+  ✗ Webex_Archive_Manager_DEBUG.zip
+  ✗ Webex_Archive_Manager_COMPLET.zip
+
+
+✅ RÉSULTAT DU NETTOYAGE
+═══════════════════════════════════════════════════════════════════════════════
+
+AVANT : 27+ fichiers .md, nombreux doublons et fichiers obsolètes
+APRÈS  : 2 fichiers .md essentiels, documentation claire et organisée
+
+FICHIERS CONSERVÉS
+────────────────────────────────────────────────────────────────────────────
+  ✅ README.md                       Documentation principale
+  ✅ SUCCES_CXFREEZE.md             Documentation technique
+  ✅ GUIDE_UTILISATEUR.txt           Guide utilisateur
+  ✅ PACKAGE_FINAL_INSTRUCTIONS.txt  Instructions distribution
+  ✅ VERSION_PRODUCTION.txt          Info version
+  ✅ FICHIERS_PROJET.txt            Ce fichier
+
+
+📋 CHECKLIST POUR DISTRIBUTION
+═══════════════════════════════════════════════════════════════════════════════
+
+Fichiers à inclure dans le dépôt Git :
+  ☑ Code source (webex_gui.py, main.py, setup.py)
+  ☑ Configuration (qt.conf, requirements.txt)
+  ☑ Scripts (build_cxfreeze.bat)
+  ☑ Documentation (README.md, guides .txt)
+  ☑ Dossier Webex Archive/
+
+Fichiers à NE PAS inclure dans Git :
+  ☐ build/ (généré)
+  ☐ *.zip (fichiers de distribution)
+  ☐ __pycache__/
+  ☐ *.pyc
+  ☐ .webex_gui_settings.json
+
+
+🎯 ORGANISATION FINALE
+═══════════════════════════════════════════════════════════════════════════════
+
+Le projet est maintenant propre et organisé avec :
+  • Documentation claire et sans doublons
+  • Fichiers obsolètes supprimés
+  • Structure simple et compréhensible
+  • Prêt pour Git et distribution
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  Projet nettoyé et organisé ! ✅
+═══════════════════════════════════════════════════════════════════════════════
