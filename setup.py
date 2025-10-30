@@ -56,6 +56,8 @@ build_exe_options = {
     "include_files": [
         # Inclure le dossier Webex Archive
         ("Webex Archive", "Webex Archive"),
+        # Inclure qt.conf (CRITIQUE pour PyQt6)
+        ("qt.conf", "qt.conf"),
     ],
     "include_msvcr": True,  # Inclure les DLL Visual C++ Runtime
     "zip_include_packages": [],  # Ne rien compresser dans library.zip
