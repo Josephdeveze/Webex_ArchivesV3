@@ -1,0 +1,196 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    🔍 VERSION DEBUG - DIAGNOSTIC                             ║
+║                  Pour identifier pourquoi l'app ne démarre pas               ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+📦 FICHIER À UTILISER
+═══════════════════════════════════════════════════════════════════════════════
+
+Webex_Archive_Manager_DEBUG.zip
+
+Cette version affiche une CONSOLE avec les messages d'erreur.
+
+
+🔍 INSTRUCTIONS POUR L'AUTRE MACHINE
+═══════════════════════════════════════════════════════════════════════════════
+
+1. SUPPRIMER L'ANCIEN DOSSIER
+   ────────────────────────────────────────────────────────────────────────
+   Supprimez complètement le dossier précédent
+
+
+2. DÉCOMPRESSER LE NOUVEAU ZIP
+   ────────────────────────────────────────────────────────────────────────
+   Décompressez Webex_Archive_Manager_DEBUG.zip
+
+
+3. LANCER L'APPLICATION
+   ────────────────────────────────────────────────────────────────────────
+   Double-cliquez sur "Webex Archive Manager.exe"
+
+
+4. OBSERVER LA CONSOLE
+   ────────────────────────────────────────────────────────────────────────
+   Une fenêtre NOIRE (console) devrait s'afficher avec :
+   
+   CAS A : Messages puis l'interface graphique s'affiche
+   ──────────────────────────────────────────────────────────────────────
+     ✅ L'application fonctionne !
+     → Le problème était juste le mode sans console
+   
+   CAS B : Messages d'erreur puis la fenêtre se ferme
+   ──────────────────────────────────────────────────────────────────────
+     ❌ Il y a une erreur
+     → PRENEZ UNE CAPTURE D'ÉCRAN de la console AVANT qu'elle se ferme
+     → Ou notez le message d'erreur
+   
+   CAS C : Rien ne se passe, pas de console
+   ──────────────────────────────────────────────────────────────────────
+     ❌ L'application est bloquée avant même de démarrer
+     → Voir les solutions ci-dessous
+
+
+📸 CAPTURER LES ERREURS
+═══════════════════════════════════════════════════════════════════════════════
+
+Si la console se ferme trop vite :
+
+MÉTHODE 1 : Lancer depuis PowerShell
+────────────────────────────────────────────────────────────────────────────
+  1. Ouvrir PowerShell dans le dossier :
+     • Shift + Clic droit dans le dossier
+     • "Ouvrir PowerShell ici"
+  
+  2. Taper :
+     & ".\Webex Archive Manager.exe"
+  
+  3. Appuyer sur Entrée
+  
+  4. La console restera ouverte et affichera les erreurs
+
+
+MÉTHODE 2 : Créer un fichier batch
+────────────────────────────────────────────────────────────────────────────
+  1. Créer un fichier "lancer.bat" dans le dossier
+  
+  2. Contenu du fichier :
+     @echo off
+     "Webex Archive Manager.exe"
+     pause
+  
+  3. Double-cliquer sur lancer.bat
+  
+  4. La console restera ouverte
+
+
+🔧 SOLUTIONS AUX PROBLÈMES COURANTS
+═══════════════════════════════════════════════════════════════════════════════
+
+ERREUR : "python313.dll manquant"
+────────────────────────────────────────────────────────────────────────────
+  Solution :
+  • Vérifier que python313.dll est dans le dossier
+  • Si manquant, le ZIP est incomplet
+
+
+ERREUR : "Qt platform plugin could not be initialized"
+────────────────────────────────────────────────────────────────────────────
+  Solution :
+  • Vérifier que qt.conf existe dans le dossier
+  • Vérifier que le dossier lib\PyQt6\Qt6\plugins\platforms\ existe
+  • Vérifier que qwindows.dll est dans ce dossier
+
+
+ERREUR : "VCRUNTIME140.dll manquant"
+────────────────────────────────────────────────────────────────────────────
+  Solution :
+  • Installer Visual C++ Redistributable 2015-2022
+  • Télécharger : https://aka.ms/vs/17/release/vc_redist.x64.exe
+  • Installer et redémarrer
+
+
+ERREUR : "ModuleNotFoundError: No module named 'PyQt6'"
+────────────────────────────────────────────────────────────────────────────
+  Solution :
+  • Le dossier lib\ est incomplet
+  • Vérifier que lib\PyQt6\ existe avec tous ses fichiers
+
+
+ERREUR : "Access Denied" ou "Permission denied"
+────────────────────────────────────────────────────────────────────────────
+  Solution :
+  • Lancer en tant qu'administrateur
+  • Ou déplacer le dossier hors de "Téléchargements"
+  • Essayer sur le Bureau ou dans C:\Program Files\
+
+
+PAS D'ERREUR MAIS RIEN NE S'AFFICHE
+────────────────────────────────────────────────────────────────────────────
+  Solution :
+  • L'application peut être en arrière-plan
+  • Vérifier le Gestionnaire des tâches (Ctrl+Shift+Esc)
+  • Chercher "Webex Archive Manager"
+  • Si présent, le tuer et relancer
+
+
+📋 CHECKLIST DE VÉRIFICATION
+═══════════════════════════════════════════════════════════════════════════════
+
+Sur l'autre machine, vérifiez :
+
+☐ Windows 10 ou 11 (64 bits)
+☐ Visual C++ Redistributable 2015-2022 installé
+☐ Tous les fichiers du ZIP décompressés
+☐ qt.conf présent dans le dossier
+☐ python313.dll présent dans le dossier
+☐ Dossier lib\ présent avec tous les fichiers
+☐ Dossier Webex Archive\ présent
+☐ Antivirus ne bloque pas l'application
+☐ Windows Defender ne bloque pas l'application
+☐ Droits d'administrateur si nécessaire
+
+
+🎯 MESSAGES D'ERREUR À CHERCHER
+═══════════════════════════════════════════════════════════════════════════════
+
+Quand vous lancez l'application, notez EXACTEMENT :
+
+1. Le premier message qui s'affiche
+2. Le dernier message avant la fermeture
+3. Tout message contenant "Error", "Failed", "Missing", "Not found"
+
+Exemples de messages importants :
+  • "ImportError: ..."
+  • "ModuleNotFoundError: ..."
+  • "FileNotFoundError: ..."
+  • "DLL load failed: ..."
+  • "Qt platform plugin ..."
+
+
+📤 ENVOYER LES RÉSULTATS
+═══════════════════════════════════════════════════════════════════════════════
+
+Une fois que vous avez testé :
+
+1. PRENEZ UNE CAPTURE D'ÉCRAN de la console avec l'erreur
+
+2. OU NOTEZ le message d'erreur complet
+
+3. ENVOYEZ-MOI :
+   • La capture d'écran
+   • OU le texte de l'erreur
+   • Ce qui se passe exactement (rien, console qui s'ouvre puis se ferme, etc.)
+
+
+🔄 APRÈS LE DIAGNOSTIC
+═══════════════════════════════════════════════════════════════════════════════
+
+Une fois qu'on connaît l'erreur exacte, je pourrai :
+• Corriger le problème
+• Recompiler une version finale qui fonctionne
+• Créer la version sans console pour distribution
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  Testez cette version DEBUG et envoyez-moi le message d'erreur ! 🔍
+═══════════════════════════════════════════════════════════════════════════════

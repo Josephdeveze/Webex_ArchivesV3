@@ -66,9 +66,10 @@ build_exe_options = {
 }
 
 # Configuration de l'exécutable
+# MODE CONSOLE ACTIVÉ POUR DEBUG
 base = None
-if sys.platform == "win32":
-    base = "Win32GUI"  # Pas de console sur Windows
+# if sys.platform == "win32":
+#     base = "Win32GUI"  # Pas de console sur Windows
 
 executables = [
     Executable(
