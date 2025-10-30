@@ -1,0 +1,214 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║              📦 GUIDE DE DISTRIBUTION - cx_Freeze                            ║
+║                    Webex Archive Manager                                     ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+✅ COMPILATION REUSSIE AVEC CX_FREEZE !
+
+L'application fonctionne maintenant parfaitement avec Python 3.13.
+Le problème des modules _socket est résolu !
+
+
+📦 CRÉER LE PACKAGE DE DISTRIBUTION
+═══════════════════════════════════════════════════════════════════════════════
+
+1. LOCALISER LE DOSSIER DE L'APPLICATION
+   ────────────────────────────────────────────────────────────────────────
+   Le dossier se trouve dans :
+   
+   build\exe.win-amd64-3.13\
+   
+   Ce dossier contient TOUT ce qui est nécessaire.
+
+
+2. RENOMMER LE DOSSIER (Optionnel mais recommandé)
+   ────────────────────────────────────────────────────────────────────────
+   Pour plus de clarté, renommez le dossier :
+   
+   De : exe.win-amd64-3.13
+   En : Webex Archive Manager
+   
+   Commande PowerShell :
+   Rename-Item "build\exe.win-amd64-3.13" "Webex Archive Manager"
+
+
+3. CRÉER LE FICHIER ZIP
+   ────────────────────────────────────────────────────────────────────────
+   Option A - Avec l'explorateur Windows :
+     • Clic droit sur le dossier "Webex Archive Manager"
+     • "Envoyer vers" → "Dossier compressé"
+     • Renommer en "Webex_Archive_Manager_v1.0.zip"
+   
+   Option B - Avec PowerShell :
+     Compress-Archive -Path "build\exe.win-amd64-3.13" `
+                      -DestinationPath "Webex_Archive_Manager_v1.0.zip"
+
+
+📤 ENVOYER À L'UTILISATEUR
+═══════════════════════════════════════════════════════════════════════════════
+
+1. TAILLE DU FICHIER
+   ────────────────────────────────────────────────────────────────────────
+   • Dossier décompressé : ~150 MB
+   • Fichier ZIP : ~50-60 MB
+   
+   Méthodes d'envoi recommandées :
+   • Email (si < 25 MB, sinon utiliser WeTransfer)
+   • OneDrive / Google Drive / Dropbox
+   • Clé USB
+   • Réseau interne
+
+
+2. INSTRUCTIONS POUR L'UTILISATEUR
+   ────────────────────────────────────────────────────────────────────────
+   Incluez ce message avec le ZIP :
+   
+   ┌────────────────────────────────────────────────────────────────────┐
+   │ INSTALLATION DE WEBEX ARCHIVE MANAGER                              │
+   │                                                                    │
+   │ 1. Décompressez le fichier ZIP                                    │
+   │ 2. Ouvrez le dossier "Webex Archive Manager"                      │
+   │ 3. Double-cliquez sur "Webex Archive Manager.exe"                 │
+   │                                                                    │
+   │ Si Windows affiche un avertissement :                             │
+   │   → Cliquez sur "Plus d'informations"                             │
+   │   → Puis "Exécuter quand même"                                    │
+   │                                                                    │
+   │ Aucune installation n'est nécessaire !                            │
+   └────────────────────────────────────────────────────────────────────┘
+
+
+🔍 VÉRIFICATIONS AVANT DISTRIBUTION
+═══════════════════════════════════════════════════════════════════════════════
+
+Avant d'envoyer à l'utilisateur, vérifiez :
+
+  ☐ L'application se lance sans erreur
+  ☐ L'interface graphique s'affiche correctement
+  ☐ Le dossier "Webex Archive" est présent
+  ☐ Vous pouvez charger les espaces Webex (avec votre token)
+  ☐ L'archivage fonctionne
+  ☐ Les fichiers HTML sont créés
+
+
+📁 STRUCTURE DU DOSSIER À DISTRIBUER
+═══════════════════════════════════════════════════════════════════════════════
+
+Webex Archive Manager/
+├── Webex Archive Manager.exe    ← L'application principale
+├── python313.dll                ← Python embarqué
+├── python3.dll
+├── lib/                         ← Modules Python
+│   ├── _socket.pyd             ← Module réseau (IMPORTANT !)
+│   ├── _ssl.pyd                ← Module SSL (IMPORTANT !)
+│   ├── select.pyd
+│   ├── libssl-3.dll
+│   └── ... (autres modules)
+├── Webex Archive/               ← Scripts d'archivage
+│   └── main.py
+└── *.dll                        ← DLL Visual C++ Runtime
+
+IMPORTANT : Tout le dossier doit être distribué, pas seulement l'EXE !
+
+
+⚠️ AVERTISSEMENT WINDOWS - C'EST NORMAL
+═══════════════════════════════════════════════════════════════════════════════
+
+L'utilisateur verra probablement cet avertissement :
+
+  ┌────────────────────────────────────────────────────────────────────┐
+  │ Windows a protégé votre PC                                         │
+  │                                                                    │
+  │ L'exécution de cette application peut mettre votre PC en danger.   │
+  │                                                                    │
+  │ [Plus d'informations]  [Ne pas exécuter]                          │
+  └────────────────────────────────────────────────────────────────────┘
+
+POURQUOI ?
+  • L'application n'a pas de signature numérique Microsoft
+  • Windows ne reconnaît pas l'éditeur
+
+EST-CE DANGEREUX ?
+  • Non ! L'application est sûre
+  • C'est juste que Microsoft ne la connaît pas
+
+COMMENT LANCER ?
+  1. Cliquer sur "Plus d'informations"
+  2. Cliquer sur "Exécuter quand même"
+  3. L'application se lancera normalement
+
+
+💡 CONSEILS POUR L'UTILISATEUR
+═══════════════════════════════════════════════════════════════════════════════
+
+1. EMPLACEMENT RECOMMANDÉ
+   ────────────────────────────────────────────────────────────────────────
+   • Bureau
+   • C:\Program Files\Webex Archive Manager\
+   • Documents\Applications\
+   
+   Éviter :
+   • Dossier Téléchargements (temporaire)
+   • Clé USB (peut être débranchée)
+
+
+2. UTILISATION
+   ────────────────────────────────────────────────────────────────────────
+   • Obtenir un token sur developer.webex.com
+   • Coller le token dans l'application
+   • Charger les espaces
+   • Sélectionner et archiver
+   
+   Les archives seront créées dans :
+   C:\Users\[Utilisateur]\Webex Archives\
+
+
+3. PRÉREQUIS SYSTÈME
+   ────────────────────────────────────────────────────────────────────────
+   • Windows 10 ou Windows 11 (64 bits)
+   • ~200 MB d'espace disque
+   • Connexion Internet (pour l'API Webex)
+   
+   PAS BESOIN DE :
+   • Python
+   • PyQt6
+   • Aucune installation supplémentaire
+
+
+🔄 MISES À JOUR FUTURES
+═══════════════════════════════════════════════════════════════════════════════
+
+Pour créer une nouvelle version :
+
+1. Modifier le code source (webex_gui.py ou main.py)
+2. Lancer : build_cxfreeze.bat
+3. Créer un nouveau ZIP
+4. Distribuer avec un nouveau numéro de version
+
+
+📊 DIFFÉRENCES AVEC PYINSTALLER
+═══════════════════════════════════════════════════════════════════════════════
+
+cx_Freeze vs PyInstaller :
+
+  ✅ Compatible Python 3.13 (PyInstaller avait des problèmes)
+  ✅ Modules _socket/_ssl fonctionnent correctement
+  ✅ Taille légèrement plus petite (~150 MB vs ~180 MB)
+  ✅ Compilation plus rapide
+  ✅ Structure plus claire (lib/ séparé)
+
+
+🎯 RÉSUMÉ RAPIDE
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Renommer le dossier : build\exe.win-amd64-3.13 → Webex Archive Manager
+2. Créer le ZIP du dossier complet
+3. Envoyer le ZIP à l'utilisateur
+4. L'utilisateur décompresse et lance l'EXE
+5. Accepter l'avertissement Windows
+6. ✅ Ça fonctionne !
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  L'application est prête pour la distribution ! 🎉
+═══════════════════════════════════════════════════════════════════════════════
