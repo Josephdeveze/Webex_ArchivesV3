@@ -164,10 +164,18 @@ class WebexArchiverGUI(QWidget):
         self.resize(1000, 700)
         
         # Chemins relatifs (portable pour tous les utilisateurs)
-        self.base_dir = Path(__file__).parent / "Webex Archive"
+        # Gérer correctement les applications compilées (frozen)
+        if getattr(sys, 'frozen', False):
+            # Application compilée avec cx_Freeze ou PyInstaller
+            application_path = Path(sys.executable).parent
+        else:
+            # Application en mode développement
+            application_path = Path(__file__).parent
+        
+        self.base_dir = application_path / "Webex Archive"
         self.archive_script = self.base_dir / "webex-space-archive.py"
         self.config_file = self.base_dir / "webexspacearchive-config.ini"
-        self.settings_file = Path(__file__).parent / ".webex_gui_settings.json"
+        self.settings_file = application_path / ".webex_gui_settings.json"
         
         self.rooms_data = []
         self.worker = None

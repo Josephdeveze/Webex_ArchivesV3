@@ -1,0 +1,138 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    ⚠️  IMPORTANT - LIRE EN PREMIER                          ║
+║                                                                              ║
+║              QUELLE VERSION DE L'APPLICATION UTILISER ?                      ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+
+🎯 VERSION À UTILISER : CX_FREEZE
+═══════════════════════════════════════════════════════════════════════════════
+
+L'APPLICATION QUI FONCTIONNE se trouve dans :
+
+    📁 build\exe.win-amd64-3.13\
+    
+    └── Webex Archive Manager.exe  ← LANCEZ CELUI-CI !
+
+
+❌ NE PAS UTILISER : PYINSTALLER (ANCIEN)
+═══════════════════════════════════════════════════════════════════════════════
+
+L'ancien dossier "dist\" a été SUPPRIMÉ car il contenait la version PyInstaller
+qui NE FONCTIONNE PAS avec Python 3.13 (erreur _socket).
+
+
+📊 DIFFÉRENCES ENTRE LES DEUX VERSIONS
+═══════════════════════════════════════════════════════════════════════════════
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    PyInstaller (ANCIEN)                                 │
+├─────────────────────────────────────────────────────────────────────────┤
+│ Emplacement : dist\Webex Archive Manager\                               │
+│ Structure   : _internal\ (dossier)                                      │
+│ Statut      : ❌ NE FONCTIONNE PAS                                      │
+│ Erreur      : ModuleNotFoundError: No module named '_socket'            │
+│ Raison      : Incompatibilité PyInstaller + Python 3.13                 │
+└─────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    cx_Freeze (NOUVEAU)                                  │
+├─────────────────────────────────────────────────────────────────────────┤
+│ Emplacement : build\exe.win-amd64-3.13\                                 │
+│ Structure   : lib\ (dossier)                                            │
+│ Statut      : ✅ FONCTIONNE PARFAITEMENT                                │
+│ Modules     : _socket, _ssl, select tous présents et fonctionnels       │
+│ Raison      : cx_Freeze compatible Python 3.13                          │
+└─────────────────────────────────────────────────────────────────────────┘
+
+
+🚀 COMMENT LANCER L'APPLICATION
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Ouvrir le dossier :
+   C:\Users\Joseph_Deveze\Downloads\Webex_ArchivesV2\build\exe.win-amd64-3.13\
+
+2. Double-cliquer sur :
+   Webex Archive Manager.exe
+
+3. Si Windows affiche un avertissement :
+   → Cliquer sur "Plus d'informations"
+   → Puis "Exécuter quand même"
+
+4. ✅ L'application démarre sans erreur !
+
+
+📦 POUR DISTRIBUER À UN UTILISATEUR
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Compresser TOUT le dossier :
+   build\exe.win-amd64-3.13\
+   
+   En ZIP nommé : Webex_Archive_Manager.zip
+
+2. Envoyer le ZIP
+
+3. L'utilisateur décompresse et lance l'EXE
+
+IMPORTANT : Il faut distribuer TOUT le dossier, pas seulement l'EXE !
+
+
+🔄 POUR RECOMPILER
+═══════════════════════════════════════════════════════════════════════════════
+
+Si vous modifiez le code et voulez recompiler :
+
+1. Lancer le script :
+   build_cxfreeze.bat
+   
+   OU en ligne de commande :
+   python setup.py build
+
+2. L'application sera dans :
+   build\exe.win-amd64-3.13\
+
+3. Tester avant de distribuer !
+
+
+⚠️ ERREUR COURANTE
+═══════════════════════════════════════════════════════════════════════════════
+
+Si vous voyez l'erreur :
+  "ModuleNotFoundError: No module named '_socket'"
+
+C'est que vous avez lancé la MAUVAISE version (PyInstaller).
+
+SOLUTION :
+  → Utilisez build\exe.win-amd64-3.13\Webex Archive Manager.exe
+  → PAS dist\Webex Archive Manager\Webex Archive Manager.exe
+
+
+📁 STRUCTURE DU PROJET
+═══════════════════════════════════════════════════════════════════════════════
+
+Webex_ArchivesV2/
+├── build/
+│   └── exe.win-amd64-3.13/          ← VERSION QUI FONCTIONNE ✅
+│       ├── Webex Archive Manager.exe
+│       ├── lib/
+│       └── Webex Archive/
+│
+├── webex_gui.py                     ← Code source
+├── main.py                          ← Script d'archivage
+├── setup.py                         ← Configuration cx_Freeze
+├── build_cxfreeze.bat               ← Script de compilation
+│
+└── Webex Archive/                   ← Scripts d'archivage
+    └── main.py
+
+
+🎯 RÉSUMÉ ULTRA-RAPIDE
+═══════════════════════════════════════════════════════════════════════════════
+
+✅ UTILISER : build\exe.win-amd64-3.13\Webex Archive Manager.exe
+❌ NE PAS UTILISER : dist\ (supprimé car ne fonctionne pas)
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  Toujours utiliser la version dans build\ ! 🎯
+═══════════════════════════════════════════════════════════════════════════════

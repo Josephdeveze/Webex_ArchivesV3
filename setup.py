@@ -58,6 +58,9 @@ build_exe_options = {
         ("Webex Archive", "Webex Archive"),
     ],
     "include_msvcr": True,  # Inclure les DLL Visual C++ Runtime
+    "zip_include_packages": [],  # Ne rien compresser dans library.zip
+    "zip_exclude_packages": ["*"],  # Tout exclure de la compression
+    "optimize": 0,
 }
 
 # Configuration de l'exécutable
