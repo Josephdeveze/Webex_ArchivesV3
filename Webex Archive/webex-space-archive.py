@@ -133,41 +133,66 @@ if os.path.isfile("./" + configFile):
                 myRoom = config['Archive Settings']['myspaceid']
         outputFileName = config['Archive Settings']['outputfilename']
         maxTotalMessages = config['Archive Settings']['maxtotalmessages']
-        if maxTotalMessages:
-            if 'd' in maxTotalMessages:  # Example: maxTotalMessages = 60d = 60 days.
-                msgMaxAge = int(maxTotalMessages.replace("d", ""))
-                maxTotalMessages = 9999999
-                msgMinAge = 0
-                # Archive msgs between 2 dates.
-            elif '-' in maxTotalMessages:  # Example: maxTotalMessages = 18042021-30102021 (ddmmyyyy-ddmmyyyy)
-                msgMaxAge = maxTotalMessages.split('-')[0]
-                msgMinAge = maxTotalMessages.split('-')[1]
-                if len(msgMinAge) == 0:
-                    msgMinAge = datetime.datetime.today().strftime(maxmsg_format)
-                for my_date in [msgMaxAge, msgMinAge]:  # check the provided date format
-                    try:
-                        test_date = my_date[7]  # dummy variable: if the date has less than 8 characters it will generate an error
-                        datetime.datetime.strptime(my_date, maxmsg_format).date()
-                    except:
-                        date_fmt = maxmsg_format.replace("%d", "dd").replace("%b", "mmm").replace("%m", "mm").replace("%y", "yy").replace("%Y", "yyyy")
-                        print(f" ** ERROR reading the from or to date: '{my_date}'")
-                        print(f"          use this exact format: {date_fmt}-{date_fmt} or {date_fmt}- \n\n")
-                        exit()
-                msgMaxAge = (datetime.datetime.today() - datetime.datetime.strptime(msgMaxAge, maxmsg_format)).days
-                msgMinAge = (datetime.datetime.today() - datetime.datetime.strptime(msgMinAge, maxmsg_format)).days
-                if msgMaxAge <= msgMinAge:
-                    print(f" ** ERROR end date must be after the start date")
-                    print(f"          use this exact format: ddmmyyyy-ddmmyyyy or ddmmyyyy- \n\n")
-                    exit()
-                maxTotalMessages = 999999
+        limit_type = config['Archive Settings'].get('limit_type', 'messages')
+        time_limit_display = ""  # For HTML header display
+        
+        if limit_type == 'time':
+            # Time-based limit (days/months/years)
+            time_limit_value = int(config['Archive Settings'].get('time_limit_value', '30'))
+            time_limit_unit = config['Archive Settings'].get('time_limit_unit', 'jours')
+            
+            # Convert to days
+            if time_limit_unit in ['jours', 'days']:
+                msgMaxAge = time_limit_value
+            elif time_limit_unit in ['mois', 'months']:
+                msgMaxAge = time_limit_value * 30  # Approximation
+            elif time_limit_unit in ['années', 'years']:
+                msgMaxAge = time_limit_value * 365  # Approximation
             else:
-                maxTotalMessages = int(maxTotalMessages)
+                msgMaxAge = 30  # Default to 30 days
+            
+            maxTotalMessages = 9999999  # Very high number to not limit by count
+            msgMinAge = 0
+            time_limit_display = f"last {time_limit_value} {time_limit_unit}"
+            print(f" Archive limit: {time_limit_display} (~{msgMaxAge} days)")
+        else:
+            # Message count limit (default behavior)
+            maxTotalMessages = config['Archive Settings']['maxtotalmessages']
+            if maxTotalMessages:
+                if 'd' in maxTotalMessages:  # Example: maxTotalMessages = 60d = 60 days.
+                    msgMaxAge = int(maxTotalMessages.replace("d", ""))
+                    maxTotalMessages = 9999999
+                    msgMinAge = 0
+                elif '-' in maxTotalMessages:  # Example: maxTotalMessages = 18042021-30102021
+                    msgMaxAge = maxTotalMessages.split('-')[0]
+                    msgMinAge = maxTotalMessages.split('-')[1]
+                    if len(msgMinAge) == 0:
+                        msgMinAge = datetime.datetime.today().strftime(maxmsg_format)
+                    for my_date in [msgMaxAge, msgMinAge]:
+                        try:
+                            test_date = my_date[7]
+                            datetime.datetime.strptime(my_date, maxmsg_format).date()
+                        except:
+                            date_fmt = maxmsg_format.replace("%d", "dd").replace("%b", "mmm").replace("%m", "mm").replace("%y", "yy").replace("%Y", "yyyy")
+                            print(f" ** ERROR reading the from or to date: '{my_date}'")
+                            print(f"          use this exact format: {date_fmt}-{date_fmt} or {date_fmt}- \n\n")
+                            exit()
+                    msgMaxAge = (datetime.datetime.today() - datetime.datetime.strptime(msgMaxAge, maxmsg_format)).days
+                    msgMinAge = (datetime.datetime.today() - datetime.datetime.strptime(msgMinAge, maxmsg_format)).days
+                    if msgMaxAge <= msgMinAge:
+                        print(f" ** ERROR end date must be after the start date")
+                        print(f"          use this exact format: ddmmyyyy-ddmmyyyy or ddmmyyyy- \n\n")
+                        exit()
+                    maxTotalMessages = 999999
+                else:
+                    maxTotalMessages = int(maxTotalMessages)
+                    msgMaxAge = 0
+                    msgMinAge = 0
+            else:
+                maxTotalMessages = 1000
                 msgMaxAge = 0
                 msgMinAge = 0
-        else:
-            maxTotalMessages = 1000
-            msgMaxAge = 0
-            msgMinAge = 0
+            print(f" Archive limit: {maxTotalMessages} messages")
         userAvatar = config['Archive Settings']['useravatar']
         outputToJson = config['Archive Settings']['outputjson']
         if config.has_option('Archive Settings', 'dst_start') and config.has_option('Archive Settings', 'dst_stop'):
@@ -315,7 +340,9 @@ if dst_start != "":  # converting dst_start/stop string to list
     except Exception as e:
         goExitError += "\n   **ERROR** the 'dst_start' or 'dst_stop' format is incorrect."
 if mySearch == "":  # NOT searching for space name
-    if msgMaxAge == 0:
+    if time_limit_display:  # v1.2: Time-based limit
+        maxMessageString = time_limit_display
+    elif msgMaxAge == 0:
         maxMessageString = str(maxTotalMessages)
     elif msgMaxAge > 0 and msgMinAge == 0:
         maxMessageString = f"{msgMaxAge} days"
@@ -1360,12 +1387,7 @@ stopTimer("get space name", 0)
 # If no outputFileName has been configured: use the space name
 if outputFileName == "":
     outputFileName = format_filename(roomName)
-
-# Utiliser la variable d'environnement OUTPUT_DIR si elle est définie
-if "OUTPUT_DIR" in os.environ:
-    myOutputFolder = os.path.join(os.environ["OUTPUT_DIR"], outputFileName)
-else:
-    myOutputFolder = outputFileName
+myOutputFolder = outputFileName
 
 
 # =====  GET MESSAGES ==========================================================

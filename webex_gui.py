@@ -9,7 +9,7 @@ from PyQt6.QtWidgets import (
     QApplication, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, 
     QLineEdit, QLabel, QListWidget, QListWidgetItem, QProgressBar,
     QTextEdit, QComboBox, QSpinBox, QCheckBox, QGroupBox, QTabWidget,
-    QMessageBox, QFileDialog, QSplitter
+    QMessageBox, QRadioButton, QFileDialog, QSplitter
 )
 from PyQt6.QtCore import Qt, QThread, pyqtSignal
 from PyQt6.QtGui import QFont, QIcon
@@ -199,7 +199,10 @@ class WebexArchiverGUI(QWidget):
                 config.set('Archive Settings', 'myspaceid', '__YOUR_SPACE_ID_HERE__')
                 config.set('Archive Settings', 'download', 'no')
                 config.set('Archive Settings', 'useravatar', 'no')
+                config.set('Archive Settings', 'limit_type', 'messages')
                 config.set('Archive Settings', 'maxTotalMessages', '1000')
+                config.set('Archive Settings', 'time_limit_value', '30')
+                config.set('Archive Settings', 'time_limit_unit', 'jours')
                 config.set('Archive Settings', 'outputfilename', '')
                 config.set('Archive Settings', 'sortoldnew', 'yes')
                 config.set('Archive Settings', 'outputjson', 'no')
@@ -352,17 +355,59 @@ class WebexArchiverGUI(QWidget):
         download_group.setLayout(download_layout)
         layout.addWidget(download_group)
         
-        messages_group = QGroupBox("💬 Options des messages")
-        messages_layout = QVBoxLayout()
+        # Section : Limite d'archivage
+        limit_group = QGroupBox("📊 Limite d'archivage")
+        limit_layout = QVBoxLayout()
         
-        messages_layout.addWidget(QLabel("Nombre maximum de messages:"))
-        max_msg_layout = QHBoxLayout()
+        # Choix du type de limite
+        limit_type_label = QLabel("Type de limite:")
+        limit_type_label.setStyleSheet("font-weight: bold;")
+        limit_layout.addWidget(limit_type_label)
+        
+        self.limit_by_messages = QRadioButton("Limiter par nombre de messages")
+        self.limit_by_messages.setChecked(True)
+        self.limit_by_messages.toggled.connect(self.toggle_limit_type)
+        limit_layout.addWidget(self.limit_by_messages)
+        
+        # Options pour limite par messages
+        msg_limit_layout = QHBoxLayout()
+        msg_limit_layout.addSpacing(20)
         self.max_messages_spin = QSpinBox()
         self.max_messages_spin.setRange(1, 999999)
         self.max_messages_spin.setValue(1000)
-        max_msg_layout.addWidget(self.max_messages_spin)
-        max_msg_layout.addWidget(QLabel("messages"))
-        messages_layout.addLayout(max_msg_layout)
+        msg_limit_layout.addWidget(self.max_messages_spin)
+        msg_limit_layout.addWidget(QLabel("messages maximum"))
+        msg_limit_layout.addStretch()
+        limit_layout.addLayout(msg_limit_layout)
+        
+        limit_layout.addSpacing(10)
+        
+        self.limit_by_time = QRadioButton("Limiter par période")
+        self.limit_by_time.toggled.connect(self.toggle_limit_type)
+        limit_layout.addWidget(self.limit_by_time)
+        
+        # Options pour limite temporelle
+        time_limit_layout = QHBoxLayout()
+        time_limit_layout.addSpacing(20)
+        time_limit_layout.addWidget(QLabel("Archiver les"))
+        self.time_value_spin = QSpinBox()
+        self.time_value_spin.setRange(1, 999)
+        self.time_value_spin.setValue(30)
+        self.time_value_spin.setEnabled(False)
+        time_limit_layout.addWidget(self.time_value_spin)
+        self.time_unit_combo = QComboBox()
+        self.time_unit_combo.addItems(["derniers jours", "derniers mois", "dernières années"])
+        self.time_unit_combo.setEnabled(False)
+        time_limit_layout.addWidget(self.time_unit_combo)
+        time_limit_layout.addStretch()
+        limit_layout.addLayout(time_limit_layout)
+        
+        limit_group.setLayout(limit_layout)
+        layout.addWidget(limit_group)
+        
+        # Section : Options des messages
+        messages_group = QGroupBox("💬 Options des messages")
+        messages_layout = QVBoxLayout()
         
         self.sort_old_new = QCheckBox("Trier du plus ancien au plus récent")
         self.sort_old_new.setChecked(True)
@@ -398,6 +443,17 @@ class WebexArchiverGUI(QWidget):
             self.token_input.setEchoMode(QLineEdit.EchoMode.Normal)
         else:
             self.token_input.setEchoMode(QLineEdit.EchoMode.Password)
+
+    def toggle_limit_type(self):
+        """Activer/désactiver les options selon le type de limite choisi"""
+        by_messages = self.limit_by_messages.isChecked()
+        
+        # Activer/désactiver les champs de limite par messages
+        self.max_messages_spin.setEnabled(by_messages)
+        
+        # Activer/désactiver les champs de limite temporelle
+        self.time_value_spin.setEnabled(not by_messages)
+        self.time_unit_combo.setEnabled(not by_messages)
 
     def load_spaces(self):
         token = self.token_input.text().strip()
@@ -534,10 +590,15 @@ class WebexArchiverGUI(QWidget):
             
             config['Archive Settings']['download'] = download_value
             config['Archive Settings']['useravatar'] = avatar_value
-            config['Archive Settings']['maxtotalmessages'] = str(self.max_messages_spin.value())
             config['Archive Settings']['sortoldnew'] = 'yes' if self.sort_old_new.isChecked() else 'no'
             config['Archive Settings']['outputjson'] = 'yes' if self.output_json.isChecked() else 'no'
             config['Archive Settings']['blurring'] = 'yes' if self.blurring.isChecked() else ''
+            
+            # Options de limite d'archivage
+            config['Archive Settings']['limit_type'] = 'messages' if self.limit_by_messages.isChecked() else 'time'
+            config['Archive Settings']['maxtotalmessages'] = str(self.max_messages_spin.value())
+            config['Archive Settings']['time_limit_value'] = str(self.time_value_spin.value())
+            config['Archive Settings']['time_limit_unit'] = self.time_unit_combo.currentText().split()[1]  # 'jours', 'mois', 'années'
             
             token = self.token_input.text().strip()
             if token:
@@ -591,10 +652,29 @@ class WebexArchiverGUI(QWidget):
                         self.avatar_combo.setCurrentIndex(i)
                         break
                 
+                # Charger les options de limite
+                limit_type = config['Archive Settings'].get('limit_type', 'messages')
+                time_limit_value = config['Archive Settings'].get('time_limit_value', '30')
+                time_limit_unit = config['Archive Settings'].get('time_limit_unit', 'jours')
+                
+                if limit_type == 'messages':
+                    self.limit_by_messages.setChecked(True)
+                else:
+                    self.limit_by_time.setChecked(True)
+                
                 try:
                     self.max_messages_spin.setValue(int(max_msg.replace('d', '')))
                 except:
                     self.max_messages_spin.setValue(1000)
+                
+                try:
+                    self.time_value_spin.setValue(int(time_limit_value))
+                except:
+                    self.time_value_spin.setValue(30)
+                
+                # Sélectionner l'unité de temps
+                unit_map = {'jours': 0, 'mois': 1, 'années': 2}
+                self.time_unit_combo.setCurrentIndex(unit_map.get(time_limit_unit, 0))
                 
                 self.sort_old_new.setChecked(sort_old == 'yes')
                 self.output_json.setChecked(output_json in ['yes', 'json', 'both'])

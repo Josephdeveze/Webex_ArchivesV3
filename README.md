@@ -1,28 +1,114 @@
-# Webex Archive Manager
+# Webex Archive Manager v1.2
 
-Application Windows pour archiver les espaces Webex en fichiers HTML.
+Application Windows pour archiver les espaces Webex avec interface graphique PyQt6.
 
-![Version](https://img.shields.io/badge/version-1.0-blue)
-![Python](https://img.shields.io/badge/python-3.13-blue)
-![Platform](https://img.shields.io/badge/platform-Windows-blue)
-![Status](https://img.shields.io/badge/status-production-green)
+## 🎯 Fonctionnalités v1.2
 
----
+### Archivage Flexible
+- **Limite par messages** : Archiver les X derniers messages (ex: 1000)
+- **Limite temporelle** : Archiver par période
+  - X derniers jours (ex: 30)
+  - X derniers mois (ex: 6)
+  - X dernières années (ex: 5)
 
-## 📋 Table des Matières
+### Fonctionnalités Principales
+- Interface graphique intuitive PyQt6
+- Archivage des messages en HTML avec mise en forme
+- Téléchargement optionnel des fichiers et images
+- Gestion des avatars utilisateurs
+- Export JSON et TXT
+- Floutage des noms (optionnel)
+- Tri chronologique
+- Support de plusieurs espaces
 
-- [À Propos](#à-propos)
-- [Fonctionnalités](#fonctionnalités)
-- [Installation Utilisateur](#installation-utilisateur)
-- [Utilisation](#utilisation)
-- [Installation Développeur](#installation-développeur)
-- [Compilation](#compilation)
-- [Structure du Projet](#structure-du-projet)
-- [Dépannage](#dépannage)
-- [Documentation](#documentation)
-- [Licence](#licence)
+## 📦 Distribution
 
----
+**Package prêt à distribuer :** `Webex_Archive_Manager_v1.2_FINAL.zip` (74.65 MB)
+
+Contient :
+- Application Windows compilée
+- Documentation bilingue (FR/EN)
+- Guide de démarrage rapide
+- Toutes les dépendances
+
+## 🚀 Utilisation (Utilisateurs Finaux)
+
+1. Extraire `Webex_Archive_Manager_v1.2_FINAL.zip`
+2. Lire `QUICK_START.txt`
+3. Lancer `Webex Archive Manager.exe`
+4. Configurer le token Webex
+5. Choisir la limite d'archivage
+6. Archiver !
+
+## 💻 Développement
+
+### Prérequis
+- Windows 10/11 (64 bits)
+- Python 3.13
+- PyQt6
+
+### Installation
+```bash
+pip install -r requirements.txt
+```
+
+### Compilation
+```bash
+build_cxfreeze.bat
+```
+
+L'application compilée sera dans `build\exe.win-amd64-3.13\`
+
+### Structure du Projet
+```
+Webex_ArchivesV2/
+├── webex_gui.py              # Interface graphique principale
+├── setup.py                  # Configuration cx_Freeze
+├── build_cxfreeze.bat        # Script de compilation
+├── Webex Archive/            # Scripts d'archivage
+│   └── webex-space-archive.py
+├── README_UTILISATEUR.md     # Guide utilisateur (FR/EN)
+├── QUICK_START.txt           # Guide rapide (FR/EN)
+└── Webex_Archive_Manager_v1.2_FINAL.zip  # Package final
+```
+
+## 📚 Documentation
+
+- **README_UTILISATEUR.md** - Guide complet bilingue pour les utilisateurs
+- **QUICK_START.txt** - Guide de démarrage rapide bilingue
+- **setup.py** - Configuration de compilation
+
+## 🔧 Technologies
+
+- **Python 3.13**
+- **PyQt6** - Interface graphique
+- **cx_Freeze 8.4.1** - Compilation Windows
+- **requests** - API Webex
+
+## 📝 Changelog v1.2
+
+### Nouveautés
+- ✅ Limite temporelle d'archivage (jours/mois/années)
+- ✅ Choix exclusif entre limite par messages ou par période
+- ✅ Affichage correct de la limite dans le header HTML
+- ✅ Documentation bilingue complète
+
+### Améliorations
+- Interface simplifiée
+- Logique d'archivage optimisée
+- Support de la pagination API (>1000 messages)
+
+## 📄 Licence
+
+Cisco Sample Code License, Version 1.1
+
+## 👤 Auteur
+
+Joseph Deveze
+
+## 🆘 Support
+
+Consulter `README_UTILISATEUR.md` pour le dépannage complet.
 
 ## 🎯 À Propos
 

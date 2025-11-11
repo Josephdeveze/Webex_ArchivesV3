@@ -24,7 +24,7 @@ import os
 import sys
 
 # Replace with your Webex API access token
-ACCESS_TOKEN = "__YOUR_TOKEN_HERE__"
+ACCESS_TOKEN = "YTUyODdiMGUtYTkxZC00NGZiLWIwMDctMWQ3MzhiYmY2ZDU5MzIxNGI0MjEtMzVm_PE93_1b8506c8-45ea-450b-b056-0c830285fe71"
 archive_script = "webex-space-archive.py"
 #archive_script = "webex-space-archive-v31pub.py"
 #_____ below: no changes needed

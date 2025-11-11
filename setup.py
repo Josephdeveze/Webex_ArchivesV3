@@ -82,8 +82,8 @@ executables = [
 # Configuration du setup
 setup(
     name="Webex Archive Manager",
-    version="1.0.0",
-    description="Application pour archiver les espaces Webex",
+    version="1.2.0",
+    description="Application pour archiver les espaces Webex avec export par périodes et limite temporelle",
     author="Joseph Deveze",
     options={"build_exe": build_exe_options},
     executables=executables,
