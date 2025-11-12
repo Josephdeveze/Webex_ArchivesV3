@@ -47,8 +47,8 @@ class ArchiveWorker(QThread):
             # Si l'application est exécutée depuis le code source
             app_dir = os.path.dirname(os.path.abspath(__file__))
         
-        # Créer un dossier "Webex Archives" à côté de l'exécutable
-        output_dir = os.path.join(app_dir, "Webex Archives")
+        # Créer un dossier "extraction" à côté de l'exécutable
+        output_dir = os.path.join(app_dir, "extraction")
         os.makedirs(output_dir, exist_ok=True)
         
         self.log.emit(f"📂 Dossier de sortie: {output_dir}")
