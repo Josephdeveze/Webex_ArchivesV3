@@ -84,17 +84,15 @@ class ArchiveWorker(QThread):
                 # Définir le répertoire de sortie via os.environ
                 os.environ['OUTPUT_DIR'] = output_dir
                 
-                # Se placer dans le dossier externe pour que './config.ini' pointe vers un chemin inscriptible
-                os.chdir(external_webex_dir)
+                # Se placer dans le dossier d'extraction pour que les fichiers y soient créés
+                os.chdir(output_dir)
                 
                 # Sauvegarder les arguments originaux
                 original_argv = sys.argv.copy()
                 
                 # Configurer les arguments pour le script
-                # Passer un chemin RELATIF (juste le nom du fichier) pour éviter les constructions './C:\\...'
-                # Le CWD a été changé vers external_webex_dir ci-dessus
-                # Toujours passer uniquement le nom du fichier; CWD est le dossier externe inscriptible
-                config_arg = self.config_filename
+                # Passer le chemin COMPLET du fichier config (qui est dans "Webex Archive")
+                config_arg = os.path.join(external_webex_dir, self.config_filename)
                 
                 sys.argv = [os.path.basename(self.script_path), room_id, config_arg]
                 

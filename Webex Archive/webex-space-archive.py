@@ -108,9 +108,11 @@ elif cl_count > 1:
 
 config = configparser.ConfigParser(allow_no_value=True)
 # ----------- CONFIG FILE: check if config file exists and if the mandatory settings entries are present.
-if os.path.isfile("./" + configFile):
+# Gérer les chemins absolus et relatifs
+config_path = configFile if os.path.isabs(configFile) else "./" + configFile
+if os.path.isfile(config_path):
     try:
-        config.read('./' + configFile)
+        config.read(config_path)
         if config.has_option('Archive Settings', 'downloadfiles'):
             print(" *** NOTE!\n     Please change the key 'downloadfiles' in your .ini file to 'download'\n     or rename your .ini file and run this script to generate a new .ini file\n\n")
             beep(3)
@@ -297,7 +299,7 @@ else:
         config.set('Archive Settings', ';   no / empty  = (default) no blurring')
         config.set('Archive Settings', ';   yes = blurring enabled')
         config.set('Archive Settings', 'blurring', '')
-        with open('./' + configFile, 'w') as configfile:
+        with open(config_path, 'w') as configfile:
             config.write(configfile)
     except Exception as e:  # Error creating config file
         print(" ** ERROR ** creating config file")
